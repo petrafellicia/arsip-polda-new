@@ -203,8 +203,8 @@ class SuratKeluarController extends Controller
             $file = $request->file('file');
             $filename = $file->getClientOriginalName();
             $file->move('dokumensuratkeluar/', $filename);
-        $data->update(
-            [
+            $data->update(
+                [
                     'nomor_agenda' => $request->no_agenda,
                     'nomor_surat' => $request->no_surat,
                     'jenis_surat' => $jenis_surat->id,
@@ -218,7 +218,7 @@ class SuratKeluarController extends Controller
                     'feedback' => $request->feedback,
                     'file_name' => $filename
                 ]
-        );
+            );
 
         }
         Alert::success('Data Berhasil DiUpdate', 'Data surat keluar telah berhasil diupdate ke database.')->toHtml();
@@ -263,7 +263,7 @@ class SuratKeluarController extends Controller
     public function exportpdfkeluar(Request $request)
     {
         $bulan = $request->input('bulan');
-        $data = SuratKeluar::whereMonth('tgl_surat', $bulan)->get();
+        $data = SuratKeluar::whereMonth('tanggal_surat', $bulan)->get();
 
         $pdf = PDF::loadView('cetaksuratkeluar', ['data' => $data, 'bulan' => $bulan]);
 

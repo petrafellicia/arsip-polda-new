@@ -82,18 +82,18 @@
                 <th scope="row">{{ $row->nomor_agenda }}</th>
                 <td>{{ $row->nomor_surat }}</td>
                 <td>{{ $row->jenis_surat()->first()->nama }}</td>
-                <td>{{ $row->pengirim()->first()->nama_pengirim }}</td>
+                <td>{{ $row->pengirim()->first()->nama_unit }}</td>
                 <td>{{ $row->perihal }}</td>
                 <td>{{ $row->kka()->first()->nama }}</td>
                 <td>{{ $row->dasar_surat }}</td>
                 <td>{{ date('d-m-Y', strtotime($row->tanggal_surat)) }}</td>
                 <td>{{ $row->jam_surat }}</td>
                 <!-- <td>{{ $row->disposisi }}</td> -->
-                <td>{{ $row->penerima()->first()->nama_penerima }}</td>
+                <td>{{ $row->penerima()->first()->nama_tujuan }}</td>
                 <!-- <td>{{ $row->isi_disposisi }}</td> -->
                 <td>{{ $row->feedback }}</td>
                 <td>
-                    <a href="dokumensuratkeluar/{{ $row->file }}" class="btn btn-success"
+                    <a href="dokumensuratkeluar/{{ $row->file_name }}" class="btn btn-success"
                         style="font-size: 13px;">Download</a>
                 </td>
                 <td><a href="/tampilkandatakeluar/{{ $row->id }}" class="btn btn-primary"

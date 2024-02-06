@@ -70,7 +70,7 @@
                 <td>{{ $row->isi_disposisi }}</td>
                 <td>{{ $row->keterangan }}</td>
                 <td>
-                    <a href="dokumensuratmasuk/{{ $row->file }}" class="btn btn-success"
+                    <a href="dokumensuratmasuk/{{ $row->file_name }}" class="btn btn-success"
                         style="font-size: 13px; font-family: Times New Roman, Times, serif;">Download</a>
                 </td>
                 <td scope="row"><a href="/tampilkandatamasuk/{{ $row->id }}" class="btn btn-primary"

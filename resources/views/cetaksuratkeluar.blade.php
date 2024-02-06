@@ -64,14 +64,14 @@
             @foreach ($data as $row)
             <tr>
                 <td>{{ $no++ }}</td>
-                <td scope="row">{{ $row->no_agenda }}</td>
-                <td>{{ $row->no_surat }}</td>
-                <td>{{ $row->surattypes->nama }}</td>
-                <td>{{ $row->pengirim }}</td>
+                <td scope="row">{{ $row->nomor_agenda }}</td>
+                <td>{{ $row->nomor_surat }}</td>
+                <td>{{ $row->jenis_surat()->first()->nama }}</td>
+                <td>{{ $row->pengirim()->first()->nama_unit }}</td>
                 <td>{{ $row->perihal }}</td>
                 <td>{{ $row->dasar_surat }}</td>
                 <td>{{ date('d-m-Y H:i', strtotime($row->tgl_surat.' '.$row->jam_surat)) }}</td>
-                <td>{{ $row->penerima }}</td>
+                <td>{{ $row->penerima()->first()->nama_tujuan }}</td>
                 <td>{{ $row->feedback }}</td>
             </tr>
             @endforeach

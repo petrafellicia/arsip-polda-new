@@ -10,18 +10,19 @@ use Illuminate\Support\Carbon;
 
 class GrafikController extends Controller
 {
-    public function grafikSurat(){
+    public function grafikSurat()
+    {
         $dailyDataMasuk = SuratMasuk::select(
-            DB::raw("to_char(tanggal_surat, '"."%Y-%m"."') as month"),
+            DB::raw("DATE_FORMAT(tanggal_surat, '" . "%Y-%m" . "') as month"),
             DB::raw('COUNT(*) as total_surat')
-            )
+        )
             ->groupBy('month')
             ->orderBy('month')
             ->get();
 
 
         $dailyDataKeluar = SuratKeluar::select(
-            DB::raw("to_char(tanggal_surat, '"."%Y-%m"."') as month"),
+            DB::raw("DATE_FORMAT(tanggal_surat, '" . "%Y-%m" . "') as month"),
             DB::raw('COUNT(*) as total_surat')
         )
             ->groupBy('month')

@@ -13,9 +13,10 @@ class TujuanSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            'Bid Siber',
-            'Bid TIK',
-            'Bid Tekinfo'
+            'Rumah Sakit DL',
+            'Lembaga Pemerintahan',
+            'Instansi Swasta',
+            'Masyarakat Umum'
         ];
 
         foreach ($data as $key => $value) {

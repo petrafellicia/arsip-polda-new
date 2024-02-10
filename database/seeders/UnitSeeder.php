@@ -12,10 +12,20 @@ class UnitSeeder extends Seeder
      */
     public function run(): void
     {
+        $data = [
+            'KAURREN',
+            'KAURJARKOM',
+            'KAURPULATAH',
+            'Bid Siber',
+            'Bid Tekinfo'
+        ];
+
+        foreach ($data as $key => $value) {
         \DB::table('unit_penerima')->insert([
-            'nama_unit' => 'Kabid TIK',
+            'nama_unit' => $value,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now(),
         ]);
+    }
     }
 }

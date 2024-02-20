@@ -87,8 +87,10 @@ class SuratMasukController extends Controller
         //     $data = SuratMasuk::paginate(5);
         // }
         $data = SuratMasuk::where(function ($query) use ($searchTerm) {
+            $formattedSearchTerm = date('Y-m-d', strtotime($searchTerm));
             $query->where('nomor_surat', 'like', "%$searchTerm%")
-                ->orWhere('tanggal_surat', 'like', "%$searchTerm%")
+                // ->orWhere('tanggal_surat', 'like', "%$searchTerm%")
+                ->orWhereRaw("DATE_FORMAT(tanggal_surat, '%Y-%m-%d') LIKE ?", ["%$formattedSearchTerm%"])
                 // ->orWhere('kka', 'like', "%$searchTerm%")
                 ->orWhereHas('kka', function ($query) use ($searchTerm) {
                     $query->where('nama', 'like', '%' . $searchTerm . '%');

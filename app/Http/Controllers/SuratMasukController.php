@@ -128,7 +128,7 @@ class SuratMasukController extends Controller
 
     public function insertsurat(Request $request)
     {
-        dump($request->all());
+        // dump($request->all());
         $disposisi_kepada = "";
         for ($i = 0; $i < sizeof($request->get('disposisi')); $i++) {
             if ($request->get('disposisi')[$i] != null) {

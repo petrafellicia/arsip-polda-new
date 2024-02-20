@@ -107,7 +107,6 @@
             @endif
         </tbody>
     </table>
-    <!-- {{ $data->links() }} -->
 </div>
 @include('sweetalert::alert')
 <script>

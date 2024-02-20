@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('unit_penerima', function (Blueprint $table) {
             $table->id();
             $table->string('nama_unit');
+            $table->string('alamat_unit');
             $table->timestamps();
         });
     }

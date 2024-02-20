@@ -62,7 +62,7 @@
                 <td>{{ $row->jenis_surat()->first()->nama }}</td>
                 <td>{{ $row->asal_surat()->first()->nama_pengirim }}</td>
                 <td>{{ $row->perihal }}</td>
-                <td>{{ $row->kka }}</td>
+                <td>{{ $row->kka()->first()->nama }}</td>
                 <td>{{ date('d-m-Y', strtotime($row->tanggal_surat)) }}</td>
                 <td>{{ $row->jam_surat }}</td>
                 <td>{{ $row->disposisi_kepada }}</td>

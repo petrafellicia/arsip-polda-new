@@ -29,7 +29,8 @@ class SuratMasuk extends Model
         return $this->belongsTo(Pengirim::class, 'asal_surat');
     }
 
-    public function penerima(){
+    public function penerima()
+    {
         return $this->belongsTo(Unit::class, 'penerima');
     }
 

@@ -13,15 +13,16 @@ class TujuanSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            'Rumah Sakit DL',
-            'Lembaga Pemerintahan',
-            'Instansi Swasta',
-            'Masyarakat Umum'
+            'Rumah Sakit DL' => 'Jalan Ksatria 9',
+            'Lembaga Pemerintahan' => 'Jalan Ringroad Utara',
+            'Instansi Swasta' => 'Jalan Panembahan 6',
+            'Masyarakat Umum' => 'Jalan Tugu Mas'
         ];
 
-        foreach ($data as $key => $value) {
+        foreach ($data as $nama_tujuan => $alamat_tujuan) {
             \DB::table('tujuan')->insert([
-                'nama_tujuan' => $value,
+                'nama_tujuan' => $nama_tujuan,
+                'alamat_tujuan' => $alamat_tujuan,
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now()
             ]);

@@ -43,14 +43,17 @@ class SuratKeluarController extends Controller
         $data = [];
 
         $data = SuratKeluar::where(function ($query) use ($searchTerm) {
-            $query->where('no_surat', 'like', "%$searchTerm%")
-                ->orWhere('tgl_surat', 'like', "%$searchTerm%")
-                ->orWhere('kka', 'like', "%$searchTerm%")
-                ->orWhereHas('pengirims', function ($query) use ($searchTerm) {
-                    $query->where('nama_pengirim', 'like', '%' . $searchTerm . '%');
+            $query->where('nomor_surat', 'like', "%$searchTerm%")
+                ->orWhere('tanggal_surat', 'like', "%$searchTerm%")
+                // ->orWhere('kka', 'like', "%$searchTerm%")
+                ->orWhereHas('kka', function ($query) use ($searchTerm) {
+                    $query->where('nama', 'like', '%' . $searchTerm . '%');
                 })
-                ->orWhereHas('penerimas', function ($query) use ($searchTerm) {
-                    $query->where('nama_penerima', 'like', '%' . $searchTerm . '%');
+                ->orWhereHas('pengirim', function ($query) use ($searchTerm) {
+                    $query->where('nama_unit', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhereHas('penerima', function ($query) use ($searchTerm) {
+                    $query->where('nama_tujuan', 'like', '%' . $searchTerm . '%');
                 })
                 ->paginate(100);
         })

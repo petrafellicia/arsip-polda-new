@@ -13,19 +13,21 @@ class UnitSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            'KAURREN',
-            'KAURJARKOM',
-            'KAURPULATAH',
-            'Bid Siber',
-            'Bid Tekinfo'
+            'KAURREN' => 'Jalan Sleman Utara',
+            'KAURJARKOM' => 'Jalan Sleman Utara',
+            'KAURPULATAH' => 'Jalan Sleman Utara',
+            'Bid Siber' => 'Jalan Ringroad Utara',
+            'Bid Tekinfo' => 'Jalan Ringroad Utara'
         ];
 
-        foreach ($data as $key => $value) {
-        \DB::table('unit_penerima')->insert([
-            'nama_unit' => $value,
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now(),
-        ]);
-    }
+        // foreach ($data as $key => $value) {
+        foreach ($data as $nama_unit => $alamat_unit) {
+            \DB::table('unit_penerima')->insert([
+                'nama_unit' => $nama_unit,
+                'alamat_unit' => $alamat_unit,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
+            ]);
+        }
     }
 }

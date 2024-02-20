@@ -12,7 +12,8 @@ class Unit extends Model
     protected $table = 'unit_penerima';
 
     protected $fillable = [
-        'nama_unit'
+        'nama_unit',
+        'alamat_unit'
     ];
 
     public function surat_masuks()

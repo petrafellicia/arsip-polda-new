@@ -11,7 +11,8 @@ class Pengirim extends Model
 
     protected $table = 'pengirim';
     protected $fillable = [
-        'nama_pengirim'
+        'nama_pengirim',
+        'alamat_pengirim'
     ];
 
     public function surat_masuks()

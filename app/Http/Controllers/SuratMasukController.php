@@ -89,12 +89,15 @@ class SuratMasukController extends Controller
         $data = SuratMasuk::where(function ($query) use ($searchTerm) {
             $query->where('nomor_surat', 'like', "%$searchTerm%")
                 ->orWhere('tanggal_surat', 'like', "%$searchTerm%")
-                ->orWhere('kka', 'like', "%$searchTerm%")
-                ->orWhereHas('pengirims', function ($query) use ($searchTerm) {
+                // ->orWhere('kka', 'like', "%$searchTerm%")
+                ->orWhereHas('kka', function ($query) use ($searchTerm) {
+                    $query->where('nama', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhereHas('asal_surat', function ($query) use ($searchTerm) {
                     $query->where('nama_pengirim', 'like', '%' . $searchTerm . '%');
                 })
-                ->orWhereHas('penerimas', function ($query) use ($searchTerm) {
-                    $query->where('nama_penerima', 'like', '%' . $searchTerm . '%');
+                ->orWhereHas('penerima', function ($query) use ($searchTerm) {
+                    $query->where('nama_unit', 'like', '%' . $searchTerm . '%');
                 })
                 ->paginate(100);
         })
@@ -113,8 +116,6 @@ class SuratMasukController extends Controller
 
     public function tambahdata()
     {
-        // $datasurat1 = Pengirim::all();
-        // $datasurat2 = Penerima::all();
         $jenis_surat = JenisSurat::all();
         $unit_penerima = Unit::all();
         $kka = KKA::all();
@@ -125,74 +126,58 @@ class SuratMasukController extends Controller
 
     public function insertsurat(Request $request)
     {
-        // dd($request->all());
-
-        // $request->validate([
-        //     'nomor_agenda' => 'required',
-        //     'nomor_surat' => 'required',
-        //     'jenis_surat' => 'required',
-        //     'asal_surat' => 'required',
-        //     'perihal' => 'required',
-        //     'kka' => 'required',
-        //     'tanggal_surat' => 'required',
-        //     'jam_terima' => 'required',
-        //     'disposisi_kepada' => 'required',
-        //     'distribusi' => 'required',
-        //     'isi_disposisi' => 'required',
-        //     'keterangan' => 'required',
-        //     'file' => 'required|mimes:pdf,word,jpeg,png,jpg',
-        // ]);
-
+        dump($request->all());
         $disposisi_kepada = "";
         for ($i = 0; $i < sizeof($request->get('disposisi')); $i++) {
             if ($request->get('disposisi')[$i] != null) {
                 $disposisi_kepada .= $request->get('disposisi')[$i] . ";";
             }
         }
-        try {
-            DB::beginTransaction();
+        // try {
+        DB::beginTransaction();
 
-            $penerima = Unit::where('nama_unit', $request->nama_unit)->first(); # penerima
-            $asal_surat = Pengirim::where('nama_pengirim', strtolower($request->pengirim_id))->first();
-            $jenis_surat = JenisSurat::where('nama', $request->jenis_surat)->first();
-            $kka = KKA::where('nama', $request->kka)->first();
-            if (empty($asal_surat)) {
-                $asal_surat = Pengirim::create([
-                    'nama_pengirim' => strtolower($request->pengirim_id)
-                ]);
-            }
-            if ($request->hasFile('file')) {
-                $file = $request->file('file');
-                $filename = $file->getClientOriginalName();
-                $file->move('dokumensuratmasuk/', $filename);
-                $data = SuratMasuk::create(
-                    [
-                        'nomor_agenda' => $request->nomor_agenda,
-                        'nomor_surat' => $request->nomor_surat,
-                        'jenis_surat' => $jenis_surat->id,
-                        'asal_surat' => $asal_surat->id,
-                        'perihal' => $request->perihal,
-                        'kka' => $kka->id,
-                        'tanggal_surat' => $request->tanggal_surat,
-                        'jam_surat' => $request->jam_terima,
-                        'penerima' => $penerima->id,
-                        'disposisi_kepada' => $disposisi_kepada,
-                        'isi_disposisi' => $request->isi_disposisi,
-                        'keterangan' => $request->keterangan,
-                        'file_name' => $filename
-                    ]
-                );
-            }
-
-            DB::commit();
-            // return redirect()->route('daftar-surat-masuk')->with('success', 'Data Berhasil di Tambahkan');
-            Alert::success('Data Berhasil Disimpan', 'Data surat masuk telah berhasil disimpan ke database.')->toHtml();
-            return redirect('/daftar-surat-masuk');
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            Alert::error('Data Gagal Disimpan', 'Data surat masuk gagal disimpan ke database.')->toHtml();
-            return redirect()->back();
+        $penerima = Unit::where('nama_unit', $request->nama_unit)->first(); # penerima
+        $asal_surat = Pengirim::where('nama_pengirim', strtolower($request->pengirim_id))->first();
+        $jenis_surat = JenisSurat::where('nama', $request->jenis_surat)->first();
+        $kka = KKA::where('nama', $request->kka)->first();
+        if (empty($asal_surat)) {
+            $asal_surat = Pengirim::create([
+                'nama_pengirim' => strtolower($request->pengirim_id),
+                'alamat_pengirim' => strtolower($request->pengirim_id)
+            ]);
         }
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = $file->getClientOriginalName();
+            $file->move('dokumensuratmasuk/', $filename);
+            $data = SuratMasuk::create(
+                [
+                    'nomor_agenda' => $request->nomor_agenda,
+                    'nomor_surat' => $request->nomor_surat,
+                    'jenis_surat' => $jenis_surat->id,
+                    'asal_surat' => $asal_surat->id,
+                    'perihal' => $request->perihal,
+                    'kka' => $kka->id,
+                    'tanggal_surat' => $request->tanggal_surat,
+                    'jam_surat' => $request->jam_terima,
+                    'penerima' => $penerima->id,
+                    'disposisi_kepada' => $disposisi_kepada,
+                    'isi_disposisi' => $request->isi_disposisi,
+                    'keterangan' => $request->keterangan,
+                    'file_name' => $filename
+                ]
+            );
+        }
+
+        DB::commit();
+        // return redirect()->route('daftar-surat-masuk')->with('success', 'Data Berhasil di Tambahkan');
+        Alert::success('Data Berhasil Disimpan', 'Data surat masuk telah berhasil disimpan ke database.')->toHtml();
+        return redirect('/daftar-surat-masuk');
+        // } catch (\Throwable $th) {
+        DB::rollBack();
+        Alert::error('Data Gagal Disimpan', 'Data surat masuk gagal disimpan ke database.')->toHtml();
+        return redirect()->back();
+        // }
     }
 
     public function download(Request $request, $file)
